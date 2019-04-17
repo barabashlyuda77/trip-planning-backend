@@ -13,4 +13,8 @@ app.post('/add-data-to-db/', (req, res) => {
   res.sendStatus(200);
 });
 
+app.get('/status/', (req, res) => {
+  res.sendStatus(200);
+});
+
 app.listen(8000, () => console.log('App is running'));
