@@ -13,6 +13,10 @@ app.post('/add-data-to-db/', (req, res) => {
   res.sendStatus(200);
 });
 
+app.get('/get-country-city/', (req, res) => {
+  res.send(JSON.stringify(db));
+})
+
 app.get('/status/', (req, res) => {
   res.sendStatus(200);
 });
