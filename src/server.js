@@ -1,20 +1,35 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'trip_planning'
+});
+connection.connect();
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const db = [];
-
 app.post('/add-data-to-db/', (req, res) => {
-  db.push(req.body);
+  connection.query(
+    `INSERT INTO trip (country, city) VALUES ('${req.body.country}', '${req.body.city}')`,
+    (error, results, fields) => {
+      if (error) throw error;
+  });
   res.sendStatus(200);
 });
 
 app.get('/get-country-city/', (req, res) => {
-  res.send(JSON.stringify(db));
+  connection.query('SELECT country, city FROM trip',
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
 })
 
 app.get('/status/', (req, res) => {
