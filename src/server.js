@@ -32,6 +32,15 @@ app.get('/get-country-city/', (req, res) => {
   });
 })
 
+app.post('/is-city-exist/', (req, res) => {
+  connection.query(`SELECT city FROM trip WHERE city='${req.body.city}'`,
+    (error, results) => {
+      if (error) throw error;
+      console.log(results);
+      res.send(JSON.stringify(results));
+  });
+})
+
 app.get('/status/', (req, res) => {
   res.sendStatus(200);
 });
