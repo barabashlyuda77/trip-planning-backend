@@ -25,7 +25,7 @@ app.post('/add-data-to-db/', (req, res) => {
 });
 
 app.get('/get-country-city/', (req, res) => {
-  connection.query('SELECT country, city FROM trip',
+  connection.query('SELECT country, city, id FROM trip',
     (error, results) => {
       if (error) throw error;
       res.send(JSON.stringify(results));
@@ -36,8 +36,15 @@ app.post('/is-city-exist/', (req, res) => {
   connection.query(`SELECT city FROM trip WHERE city='${req.body.city}'`,
     (error, results) => {
       if (error) throw error;
-      console.log(results);
       res.send(JSON.stringify(results));
+  });
+})
+
+app.post('/get-country-city-by-id/', (req, res) => {
+  connection.query(`SELECT city, country FROM trip WHERE id='${req.body.id}'`,
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results[0]));
   });
 })
 
