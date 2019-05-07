@@ -24,6 +24,16 @@ app.post('/add-data-to-db/', (req, res) => {
   res.sendStatus(200);
 });
 
+app.post('/add-section-details-to-db/', (req, res) => {
+  console.log(req.body);
+  connection.query(
+    `INSERT INTO ${req.body.type} (name, trip_id, details) VALUES ('${req.body.name}', '${req.body.id}', '${req.body.details}')`,
+    (error, results, fields) => {
+      if (error) throw error;
+  });
+  res.sendStatus(200);
+});
+
 app.get('/get-country-city/', (req, res) => {
   connection.query('SELECT country, city, id FROM trip',
     (error, results) => {
