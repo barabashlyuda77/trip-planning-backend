@@ -42,16 +42,15 @@ app.get('/get-country-city/', (req, res) => {
 })
 
 app.get('/get-things-to-do-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details FROM things_to_do WHERE trip_id='${req.params.id}'`,
+  connection.query(`SELECT name, details, id FROM things_to_do WHERE trip_id='${req.params.id}'`,
     (error, results) => {
-      console.log(results);
       if (error) throw error;
       res.send(JSON.stringify(results));
   });
 })
 
 app.get('/get-food-drink-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details FROM food_drink WHERE trip_id='${req.params.id}'`,
+  connection.query(`SELECT name, details, id FROM food_drink WHERE trip_id='${req.params.id}'`,
     (error, results) => {
       if (error) throw error;
       res.send(JSON.stringify(results));
@@ -59,7 +58,7 @@ app.get('/get-food-drink-name-details/:id/', (req, res) => {
 })
 
 app.get('/get-beaches-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details FROM beaches WHERE trip_id='${req.params.id}'`,
+  connection.query(`SELECT name, details, id FROM beaches WHERE trip_id='${req.params.id}'`,
     (error, results) => {
       if (error) throw error;
       res.send(JSON.stringify(results));
@@ -67,7 +66,7 @@ app.get('/get-beaches-name-details/:id/', (req, res) => {
 })
 
 app.get('/get-accommodation-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details FROM accommodation WHERE trip_id='${req.params.id}'`,
+  connection.query(`SELECT name, details, id FROM accommodation WHERE trip_id='${req.params.id}'`,
     (error, results) => {
       if (error) throw error;
       res.send(JSON.stringify(results));
@@ -93,5 +92,37 @@ app.post('/get-country-city-by-id/', (req, res) => {
 app.get('/status/', (req, res) => {
   res.sendStatus(200);
 });
+
+app.delete('/delete-item-from-things-to-do/', (req, res) => {
+  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+    (error, results) => {
+      if (error) throw error;
+  });
+  res.sendStatus(200);
+})
+
+app.delete('/delete-item-from-food-drink/', (req, res) => {
+  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+    (error, results) => {
+      if (error) throw error;
+  });
+  res.sendStatus(200);
+})
+
+app.delete('/delete-item-from-beaches/', (req, res) => {
+  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+    (error, results) => {
+      if (error) throw error;
+  });
+  res.sendStatus(200);
+})
+
+app.delete('/delete-item-from-accommodation/', (req, res) => {
+  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+    (error, results) => {
+      if (error) throw error;
+  });
+  res.sendStatus(200);
+})
 
 app.listen(8000, () => console.log('App is running'));
