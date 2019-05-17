@@ -25,7 +25,6 @@ app.post('/add-data-to-db/', (req, res) => {
 });
 
 app.post('/add-section-details-to-db/', (req, res) => {
-  console.log(req.body);
   connection.query(
     `INSERT INTO ${req.body.type} (name, trip_id, details) VALUES ('${req.body.name}', '${req.body.id}', '${req.body.details}')`,
     (error, results, fields) => {
@@ -36,6 +35,39 @@ app.post('/add-section-details-to-db/', (req, res) => {
 
 app.get('/get-country-city/', (req, res) => {
   connection.query('SELECT country, city, id FROM trip',
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/get-things-to-do-name-details/:id/', (req, res) => {
+  connection.query(`SELECT name, details FROM things_to_do WHERE trip_id='${req.params.id}'`,
+    (error, results) => {
+      console.log(results);
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/get-food-drink-name-details/:id/', (req, res) => {
+  connection.query(`SELECT name, details FROM food_drink WHERE trip_id='${req.params.id}'`,
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/get-beaches-name-details/:id/', (req, res) => {
+  connection.query(`SELECT name, details FROM beaches WHERE trip_id='${req.params.id}'`,
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/get-accommodation-name-details/:id/', (req, res) => {
+  connection.query(`SELECT name, details FROM accommodation WHERE trip_id='${req.params.id}'`,
     (error, results) => {
       if (error) throw error;
       res.send(JSON.stringify(results));
