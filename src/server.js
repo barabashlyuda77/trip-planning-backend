@@ -29,8 +29,12 @@ app.post('/add-section-details-to-db/', (req, res) => {
     `INSERT INTO ${req.body.type} (name, trip_id, details) VALUES ('${req.body.name}', '${req.body.id}', '${req.body.details}')`,
     (error, results, fields) => {
       if (error) throw error;
+      connection.query(`SELECT name, details, trip_id, id FROM ${req.body.type}`,
+        (error, results) => {
+          if (error) throw error;
+          res.send(JSON.stringify(results));
+      });
   });
-  res.sendStatus(200);
 });
 
 app.get('/get-country-city/', (req, res) => {
