@@ -101,32 +101,48 @@ app.delete('/delete-item-from-things-to-do/', (req, res) => {
   connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
     (error, results) => {
       if (error) throw error;
+      connection.query(`SELECT name, details, id FROM things_to_do`,
+        (error, results) => {
+          if (error) throw error;
+          res.send(JSON.stringify(results));
+      });
   });
-  res.sendStatus(200);
 })
 
 app.delete('/delete-item-from-food-drink/', (req, res) => {
-  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+  connection.query(`DELETE FROM food_drink WHERE id='${req.body.id}'`,
     (error, results) => {
       if (error) throw error;
+      connection.query(`SELECT name, details, id FROM food_drink`,
+        (error, results) => {
+          if (error) throw error;
+          res.send(JSON.stringify(results));
+      });
   });
-  res.sendStatus(200);
 })
 
 app.delete('/delete-item-from-beaches/', (req, res) => {
-  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+  connection.query(`DELETE FROM beaches WHERE id='${req.body.id}'`,
     (error, results) => {
       if (error) throw error;
+      connection.query(`SELECT name, details, id FROM beaches`,
+        (error, results) => {
+          if (error) throw error;
+          res.send(JSON.stringify(results));
+      });
   });
-  res.sendStatus(200);
 })
 
 app.delete('/delete-item-from-accommodation/', (req, res) => {
-  connection.query(`DELETE FROM things_to_do WHERE id='${req.body.id}'`,
+  connection.query(`DELETE FROM accomodation WHERE id='${req.body.id}'`,
     (error, results) => {
       if (error) throw error;
+      connection.query(`SELECT name, details, id FROM accomodation`,
+        (error, results) => {
+          if (error) throw error;
+          res.send(JSON.stringify(results));
+      });
   });
-  res.sendStatus(200);
 })
 
 app.listen(8000, () => console.log('App is running'));
