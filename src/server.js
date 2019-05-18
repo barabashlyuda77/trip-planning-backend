@@ -15,6 +15,26 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.get('/get-country-city/', (req, res) => {
+  connection.query('SELECT country, city, id FROM trip',
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/get-name-details/:tableName/:id/', (req, res) => {
+  connection.query(`SELECT name, details, id FROM ${req.params.tableName} WHERE trip_id='${req.params.id}'`,
+    (error, results) => {
+      if (error) throw error;
+      res.send(JSON.stringify(results));
+  });
+})
+
+app.get('/status/', (req, res) => {
+  res.sendStatus(200);
+});
+
 app.post('/add-data-to-db/', (req, res) => {
   connection.query(
     `INSERT INTO trip (country, city) VALUES ('${req.body.country}', '${req.body.city}')`,
@@ -37,46 +57,6 @@ app.post('/add-section-details-to-db/', (req, res) => {
   });
 });
 
-app.get('/get-country-city/', (req, res) => {
-  connection.query('SELECT country, city, id FROM trip',
-    (error, results) => {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-  });
-})
-
-app.get('/get-things-to-do-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details, id FROM things_to_do WHERE trip_id='${req.params.id}'`,
-    (error, results) => {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-  });
-})
-
-app.get('/get-food-drink-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details, id FROM food_drink WHERE trip_id='${req.params.id}'`,
-    (error, results) => {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-  });
-})
-
-app.get('/get-beaches-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details, id FROM beaches WHERE trip_id='${req.params.id}'`,
-    (error, results) => {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-  });
-})
-
-app.get('/get-accommodation-name-details/:id/', (req, res) => {
-  connection.query(`SELECT name, details, id FROM accommodation WHERE trip_id='${req.params.id}'`,
-    (error, results) => {
-      if (error) throw error;
-      res.send(JSON.stringify(results));
-  });
-})
-
 app.post('/is-city-exist/', (req, res) => {
   connection.query(`SELECT city FROM trip WHERE city='${req.body.city}'`,
     (error, results) => {
@@ -93,27 +73,7 @@ app.post('/get-country-city-by-id/', (req, res) => {
   });
 })
 
-app.get('/status/', (req, res) => {
-  res.sendStatus(200);
-});
-
-app.delete('/delete-item-from-things-to-do/', (req, res) => {
-  deleteFromSection(req, res);
-})
-
-app.delete('/delete-item-from-food-drink/', (req, res) => {
-  deleteFromSection(req, res);
-})
-
-app.delete('/delete-item-from-beaches/', (req, res) => {
-  deleteFromSection(req, res);
-})
-
-app.delete('/delete-item-from-accommodation/', (req, res) => {
-  deleteFromSection(req, res);
-})
-
-deleteFromSection = (req, res) => {
+app.delete('/delete-item/', (req, res) => {
   connection.query(`DELETE FROM ${req.body.tableName} WHERE id='${req.body.id}'`,
     (error, results) => {
       if (error) throw error;
@@ -123,6 +83,6 @@ deleteFromSection = (req, res) => {
           res.send(JSON.stringify(results));
       });
   });
-}
+})
 
 app.listen(8000, () => console.log('App is running'));
