@@ -85,4 +85,34 @@ app.delete('/delete-item/', (req, res) => {
   });
 })
 
+app.delete('/delete-trip/', (req, res) => {
+  const tripId = req.body.tripId;
+
+  new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM trip WHERE id='${tripId}'`,
+      (error, results) => error ? reject(error) : resolve())
+  })
+  .then(() => new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM things_to_do WHERE trip_id='${tripId}'`,
+      (error, results) => error ? reject(error) : resolve());
+  }))
+  .then(() => new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM food_drink WHERE trip_id='${tripId}'`,
+      (error, results) => error ? reject(error) : resolve());
+  }))
+  .then(() => new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM beaches WHERE trip_id='${tripId}'`,
+      (error, results) => error ? reject(error) : resolve());
+  }))
+  .then(() => new Promise((resolve, reject) => {
+    connection.query(`DELETE FROM accommodation WHERE trip_id='${tripId}'`,
+      (error, results) => error ? reject(error) : resolve());
+  }))
+  .then(() => new Promise((resolve, reject) => {
+    connection.query(`SELECT country, city, id FROM trip`,
+      (error, results) => error ? reject(error) : resolve(res.send(JSON.stringify(results))));
+  }));
+})
+
+
 app.listen(8000, () => console.log('App is running'));
