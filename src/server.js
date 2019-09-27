@@ -4,9 +4,9 @@ const cors = require('cors');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
+  host     : 'database-1.cyxu2ebvxjob.eu-west-3.rds.amazonaws.com',
+  user     : 'admin',
+  password : 'adminadmin',
   database : 'trip_planning'
 });
 connection.connect();
